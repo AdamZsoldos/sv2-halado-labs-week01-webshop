@@ -28,8 +28,8 @@ public class Order {
         return productId;
     }
 
-    public long getAmount() {
-        return amount;
+    public long getProductAmount() {
+        return productAmount;
     }
 
     public LocalDateTime getOrderDate() {
