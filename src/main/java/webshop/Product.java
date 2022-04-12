@@ -18,6 +18,10 @@ public class Product {
         this(id, null, null, 0);
     }
 
+    public Product(String name, String category, long price) {
+        this(0, name, category, price);
+    }
+
     public long getId() {
         return id;
     }
