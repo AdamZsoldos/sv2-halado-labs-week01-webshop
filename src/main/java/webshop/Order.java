@@ -16,6 +16,10 @@ public class Order {
         this.orderDate = orderDate;
     }
 
+    public Order(Product product, long amount, LocalDateTime orderDate) {
+        this(0, product, amount, orderDate);
+    }
+
     public long getId() {
         return id;
     }
