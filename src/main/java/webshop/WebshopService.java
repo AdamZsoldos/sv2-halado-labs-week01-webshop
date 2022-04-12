@@ -55,6 +55,7 @@ public class WebshopService {
 
     public void placeOrder() {
         validateLoggedIn();
+        validateCartNotEmpty();
         orderDao.addOrders(currentUserId, createOrdersFromCart());
     }
 
@@ -100,7 +101,13 @@ public class WebshopService {
 
     private void validateLoggedIn() {
         if (!loggedIn) {
-            throw new IllegalStateException("Must be logged in");
+            throw new IllegalStateException("Not logged in");
+        }
+    }
+
+    private void validateCartNotEmpty() {
+        if (cart.isEmpty()) {
+            throw new IllegalStateException("Cart is empty");
         }
     }
 }

@@ -12,24 +12,24 @@ class WebshopServiceNotLoggedInTest {
     @Test
     void testAddProductToCartWhileNotLoggedIn() {
         Exception e = assertThrows(IllegalStateException.class, () -> webshopService.addProductToCart(1, 10));
-        assertEquals("Must be logged in", e.getMessage());
+        assertEquals("Not logged in", e.getMessage());
     }
 
     @Test
     void testRemoveProductFromCartWhileNotLoggedIn() {
         Exception e = assertThrows(IllegalStateException.class, () -> webshopService.removeProductFromCart(1));
-        assertEquals("Must be logged in", e.getMessage());
+        assertEquals("Not logged in", e.getMessage());
     }
 
     @Test
     void testPlaceOrderWhileNotLoggedIn() {
         Exception e = assertThrows(IllegalStateException.class, () -> webshopService.placeOrder());
-        assertEquals("Must be logged in", e.getMessage());
+        assertEquals("Not logged in", e.getMessage());
     }
 
     @Test
     void testListAllOrdersWhileNotLoggedIn() {
         Exception e = assertThrows(IllegalStateException.class, () -> webshopService.listAllOrders());
-        assertEquals("Must be logged in", e.getMessage());
+        assertEquals("Not logged in", e.getMessage());
     }
 }
