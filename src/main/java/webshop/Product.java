@@ -14,10 +14,6 @@ public class Product {
         this.price = price;
     }
 
-    public Product(long id) {
-        this(id, null, null, 0);
-    }
-
     public Product(String name, String category, long price) {
         this(0, name, category, price);
     }
