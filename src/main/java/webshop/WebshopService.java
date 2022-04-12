@@ -1,11 +1,10 @@
 package webshop;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WebshopService {
 
@@ -82,7 +81,21 @@ public class WebshopService {
     }
 
     public void loadProductsFromFile(Path path) {
-        // TODO
+        try {
+            List<String> lines = Files.readAllLines(path);
+            List<Product> products = lines.stream().map(this::parseLine).toList();
+            productDao.addProducts(products);
+        } catch (IOException e) {
+            throw new IllegalStateException("Cannot read file", e);
+        }
+    }
+
+    private Product parseLine(String line) {
+        String[] fields = line.split(";");
+        String name = fields[0];
+        String category = fields[1];
+        long price = Long.parseLong(fields[2]);
+        return new Product(name, category, price);
     }
 
     private void validateLoggedIn() {
