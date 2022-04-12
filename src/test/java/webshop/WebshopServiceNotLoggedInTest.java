@@ -10,6 +10,11 @@ class WebshopServiceNotLoggedInTest {
     WebshopService webshopService = new WebshopService(null, null, null);
 
     @Test
+    void testNotLoggedIn() {
+        assertFalse(webshopService.isLoggedIn());
+    }
+
+    @Test
     void testAddProductToCartWhileNotLoggedIn() {
         Exception e = assertThrows(IllegalStateException.class, () -> webshopService.addProductToCart(1, 10));
         assertEquals("Not logged in", e.getMessage());
