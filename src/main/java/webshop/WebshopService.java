@@ -46,7 +46,9 @@ public class WebshopService {
 
     public void addProductToCart(long productId, long amount) {
         validateLoggedIn();
-        cart.compute(productId, (k, v) -> v == null ? amount : v + amount);
+        long totalAmount = (cart.containsKey(productId) ? cart.get(productId) : 0) + amount;
+        validateStock(productId, totalAmount);
+        cart.put(productId, totalAmount);
     }
 
     public void removeProductFromCart(long productId) {
@@ -57,6 +59,8 @@ public class WebshopService {
     public void placeOrder() {
         validateLoggedIn();
         validateCartNotEmpty();
+        cart.forEach(this::validateStock);
+        cart.forEach((k, v) -> productDao.updateStockOfProductById(k, -v));
         orderDao.addOrders(currentUserId, createOrdersFromCart());
         cart.clear();
     }
@@ -111,6 +115,12 @@ public class WebshopService {
     private void validateCartNotEmpty() {
         if (cart.isEmpty()) {
             throw new IllegalStateException("Cart is empty");
+        }
+    }
+
+    private void validateStock(long productId, long amount) {
+        if (productDao.getAvailableStockByProductId(productId) < amount) {
+            throw new IllegalStateException("Insufficient stock for product ID " + productId);
         }
     }
 }
