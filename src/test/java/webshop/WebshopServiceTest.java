@@ -100,7 +100,7 @@ class WebshopServiceTest {
 
     @Test
     void testPlaceOrderWithEmptyCart() {
-        Exception e = assertThrows(IllegalArgumentException.class, () -> webshopService.placeOrder());
+        Exception e = assertThrows(IllegalStateException.class, () -> webshopService.placeOrder());
         assertEquals("Cart is empty", e.getMessage());
     }
 }
