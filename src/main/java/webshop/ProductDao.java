@@ -20,6 +20,12 @@ public class ProductDao {
         }
     }
 
+    public void addProductsWithStock(List<Product> products){
+        for (Product p:products) {
+            template.update("insert into products(product_name,category,price,available_stock) values(?,?,?,?)",p.getName(),p.getCategory(),p.getPrice(),p.getStock());
+        }
+    }
+
     public List<Product> findAllProducts() {
         return template.query("select * from products",
                 (rs, rowNum) -> new Product(rs.getLong("product_id"),rs.getString("product_name"),rs.getString("category"),rs.getLong("price"),rs.getLong("available_stock")));

@@ -35,8 +35,10 @@ public class ProductDaoTest {
 
     @Test
     void testAddProductsAndListProducts(){
+        productDao.addProductsWithStock(List.of(new Product("sajt","elelmiszer",200,40)));
         List<Product> results = productDao.findAllProducts();
-        assertEquals(3,results.size());
+        assertEquals(4,results.size());
+        assertEquals(40,productDao.getAvailableStockByProductId(4));
     }
 
     @Test
