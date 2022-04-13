@@ -43,7 +43,7 @@ class WebshopServiceTest {
     @Test
     void testLogIn() {
         assertTrue(webshopService.isLoggedIn());
-        assertEquals(1, webshopService.getCurrentUserId());
+        assertEquals(2, webshopService.getCurrentUserId());
     }
 
     @Test
@@ -88,11 +88,11 @@ class WebshopServiceTest {
         assertEquals(0, webshopService.getCart().size());
         List<Order> orders = webshopService.listAllOrders();
         assertEquals(2, orders.size());
-        assertEquals(0, orders.get(0).getId());
+        assertEquals(1, orders.get(0).getId());
         assertEquals(2, orders.get(0).getProductId());
         assertEquals(5, orders.get(0).getProductAmount());
         assertTrue(orders.get(0).getOrderDate().isAfter(now.minusMinutes(1)) && orders.get(0).getOrderDate().isBefore(now.plusMinutes(1)));
-        assertEquals(1, orders.get(1).getId());
+        assertEquals(2, orders.get(1).getId());
         assertEquals(3, orders.get(1).getProductId());
         assertEquals(10, orders.get(1).getProductAmount());
         assertTrue(orders.get(1).getOrderDate().isAfter(now.minusMinutes(1)) && orders.get(1).getOrderDate().isBefore(now.plusMinutes(1)));

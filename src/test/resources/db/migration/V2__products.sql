@@ -1,0 +1,1 @@
+create table products(product_id bigint auto_increment, product_name varchar(255), category varchar(255), price bigint, constraint pk_products primary key(product_id));
