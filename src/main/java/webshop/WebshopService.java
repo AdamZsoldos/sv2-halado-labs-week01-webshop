@@ -57,6 +57,7 @@ public class WebshopService {
         validateLoggedIn();
         validateCartNotEmpty();
         orderDao.addOrders(currentUserId, createOrdersFromCart());
+        cart.clear();
     }
 
     private List<Order> createOrdersFromCart() {
