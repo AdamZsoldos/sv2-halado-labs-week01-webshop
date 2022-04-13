@@ -91,7 +91,7 @@ public class WebshopService {
         try {
             List<String> lines = Files.readAllLines(path);
             List<Product> products = lines.stream().map(this::parseLine).toList();
-            productDao.addProducts(products);
+            productDao.addProductsWithStock(products);
         } catch (IOException e) {
             throw new IllegalStateException("Cannot read file", e);
         }
