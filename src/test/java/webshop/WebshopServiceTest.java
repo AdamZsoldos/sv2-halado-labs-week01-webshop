@@ -41,6 +41,12 @@ class WebshopServiceTest {
     }
 
     @Test
+    void testRegisterInvalidUser() {
+        Exception e = assertThrows(IllegalArgumentException.class, () -> webshopService.registerUser(null, "2345", "jill@doe.com", "12 Example Way"));
+        assertEquals("Username is blank", e.getMessage());
+    }
+
+    @Test
     void testLogIn() {
         assertTrue(webshopService.isLoggedIn());
         assertEquals(2, webshopService.getCurrentUserId());
