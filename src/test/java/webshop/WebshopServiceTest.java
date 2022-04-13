@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mariadb.jdbc.MariaDbDataSource;
 
+import java.nio.file.Path;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,6 +36,7 @@ class WebshopServiceTest {
         ProductDao productDao = new ProductDao(dataSource);
 
         webshopService = new WebshopService(userDao, orderDao, productDao);
+        webshopService.loadProductsFromFile(Path.of("src/test/resources/products.csv"));
         webshopService.registerUser("jill_doe", "2345", "jill@doe.com", "12 Example Way");
         webshopService.registerUser("jack_doe", "1234", "jack@doe.com", "10 Example Way");
         webshopService.logIn("jack_doe", "1234");
