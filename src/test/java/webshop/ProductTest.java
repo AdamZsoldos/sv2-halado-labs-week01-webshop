@@ -8,7 +8,7 @@ class ProductTest {
 
     @Test
     void testCreate() {
-        Product product = new Product(1, "Milk", "Groceries", 300);
+        Product product = new Product(1, "Milk", "Groceries", 300,0);
         assertEquals(1, product.getId());
         assertEquals("Milk", product.getName());
         assertEquals("Groceries", product.getCategory());

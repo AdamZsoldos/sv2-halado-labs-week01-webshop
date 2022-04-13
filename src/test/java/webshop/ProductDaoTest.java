@@ -28,14 +28,29 @@ public class ProductDaoTest {
         flyway.migrate();
 
         productDao = new ProductDao(dataSource);
+        productDao.addProducts(List.of(new Product("ego","haztartas",500,0),
+                new Product("korte","elelmiszer",400,0),
+                new Product("alma","elelmiszer",200,0)));
     }
 
     @Test
     void testAddProductsAndListProducts(){
-        productDao.addProducts(List.of(new Product("ego","haztartas",500),
-                new Product("korte","elelmiszer",400),
-                new Product("alma","elelmiszer",200)));
         List<Product> results = productDao.findAllProducts();
         assertEquals(3,results.size());
+    }
+
+    @Test
+    void testUpdateStockById(){
+        productDao.updateStockOfProductById(1,30);
+        productDao.updateStockOfProductById(1,-20);
+        assertEquals(10,productDao.getAvailableStockByProductId(1));
+    }
+
+    @Test
+    void testUpdateStockByName(){
+        productDao.updateStockOfProductByName("alma",30);
+        productDao.updateStockOfProductByName("korte",20);
+        assertEquals(30,productDao.getAvailableStockByProductName("alma"));
+        assertEquals(20,productDao.getAvailableStockByProductName("korte"));
     }
 }
