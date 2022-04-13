@@ -20,6 +20,10 @@ public class Product {
         this(0, name, category, price, stock);
     }
 
+    public Product(String name, String category, long price) {
+        this(0, name, category, price, 0);
+    }
+
     public long getId() {
         return id;
     }
