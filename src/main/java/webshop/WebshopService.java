@@ -35,6 +35,7 @@ public class WebshopService {
     }
 
     public void registerUser(String username, String password, String email, String address) {
+        UserValidator.validateUser(username, password, email, address);
         userDao.registerUser(username, password, email, address);
     }
 
@@ -97,7 +98,8 @@ public class WebshopService {
         String name = fields[0];
         String category = fields[1];
         long price = Long.parseLong(fields[2]);
-        return new Product(name, category, price);
+        long stock = Long.parseLong(fields[3]);
+        return new Product(name, category, price, stock);
     }
 
     private void validateLoggedIn() {
