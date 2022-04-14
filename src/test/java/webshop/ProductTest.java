@@ -13,5 +13,6 @@ class ProductTest {
         assertEquals("Milk", product.getName());
         assertEquals("Groceries", product.getCategory());
         assertEquals(300, product.getPrice());
+        assertEquals(10, product.getStock());
     }
 }
