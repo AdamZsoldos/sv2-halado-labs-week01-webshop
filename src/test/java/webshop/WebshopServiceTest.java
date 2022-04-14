@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class WebshopServiceTest {
 
+    ProductDao productDao;
     WebshopService webshopService;
 
     @BeforeEach
@@ -33,7 +34,7 @@ class WebshopServiceTest {
 
         UserDao userDao = new UserDao(dataSource);
         OrderDao orderDao = new OrderDao(dataSource);
-        ProductDao productDao = new ProductDao(dataSource);
+        productDao = new ProductDao(dataSource);
 
         webshopService = new WebshopService(userDao, orderDao, productDao);
         webshopService.loadProductsFromFile(Path.of("src/test/resources/products.csv"));
@@ -70,6 +71,18 @@ class WebshopServiceTest {
     }
 
     @Test
+    void testAddProductToCartInsufficientStock() {
+        webshopService.addProductToCart(2, 3);
+        assertEquals(1, webshopService.getCart().size());
+        assertEquals(3, webshopService.getCart().get(2L));
+        webshopService.addProductToCart(2, 2);
+        assertEquals(1, webshopService.getCart().size());
+        assertEquals(5, webshopService.getCart().get(2L));
+        Exception e = assertThrows(IllegalStateException.class, () -> webshopService.addProductToCart(2, 1));
+        assertEquals("Insufficient stock for product ID 2", e.getMessage());
+    }
+
+    @Test
     void testRemoveProductFromCart() {
         webshopService.addProductToCart(2, 5);
         webshopService.addProductToCart(3, 10);
@@ -98,6 +111,16 @@ class WebshopServiceTest {
         assertEquals(3, orders.get(1).getProductId());
         assertEquals(10, orders.get(1).getProductAmount());
         assertTrue(orders.get(1).getOrderDate().isAfter(now.minusMinutes(1)) && orders.get(1).getOrderDate().isBefore(now.plusMinutes(1)));
+        assertEquals(0, productDao.getAvailableStockByProductId(2));
+        assertEquals(70, productDao.getAvailableStockByProductId(3));
+    }
+
+    @Test
+    void testPlaceOrderInsufficientStock() {
+        webshopService.addProductToCart(2, 5);
+        productDao.updateStockOfProductById(2, -1);
+        Exception e = assertThrows(IllegalStateException.class, () -> webshopService.placeOrder());
+        assertEquals("Insufficient stock for product ID 2", e.getMessage());
     }
 
     @Test
